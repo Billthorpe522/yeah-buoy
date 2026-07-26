@@ -34,7 +34,7 @@
   <line class="wm-line-thin" x1="0" y1="26" x2="600" y2="26"/>
 
   <!-- eyebrow -->
-  <text class="wm-tiny" x="300" y="50" text-anchor="middle">EST. 2026 · MFR. CHICAGO · MADE BY HAND</text>
+  <text class="wm-tiny" x="300" y="50" text-anchor="middle">EST. 2026 · CHANNAHON IL · MADE BY HAND</text>
 
   <!-- main wordmark -->
   <text class="wm-headline" x="300" y="130" text-anchor="middle">YEAH<tspan class="wm-accent">·</tspan>BUOY</text>

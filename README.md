@@ -37,11 +37,11 @@ yeah-buoy/
 | **Connectors** | XT60 + ring terminal + waterproof plug |
 | **Files** | STLs release on Maker World (TBD) |
 
-## Strategy (from Ryan's audio)
+## Strategy (from the audio)
 
 The product targets **two buyers with one design**:
 1. **Makers** — print it from open-source STLs, source the motor + battery yourself
-2. **Buyers** — order a finished unit from Ryan, ready to plug and paddle
+2. **Buyers** — order a finished unit from Cerealnaut, ready to plug and paddle
 
 Both paths funnel through the same Maker World listing — that's the marketing surface.
 
@@ -49,7 +49,7 @@ Both paths funnel through the same Maker World listing — that's the marketing 
 
 - **Wordmark:** retro-marine manual style, slab serif + monospace details
 - **Palette:** safety orange `#E8612C`, cream `#FAF1DC`, ink `#1A1A1A`, sea `#2A4A5C`
-- **Built by:** Send It Studio (Bill Thorpe) for Ryan O
+- **Built by:** Send It Studio (Bill Thorpe) for Cerealnaut
 
 ## Stack
 
