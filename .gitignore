@@ -1,0 +1,30 @@
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editors
+.vscode/
+.idea/
+*.swp
+*~
+
+# Build outputs
+node_modules/
+dist/
+build/
+.cache/
+
+# Logs
+*.log
+
+# Env / secrets (future)
+.env
+.env.local
+
+# Source images at full resolution
+# (keep web-optimized versions in assets/photos, ignore anything that looks like a raw upload)
+*-raw.*
+*-original.*
+
+# Don't ignore CNAME — needed for custom domains

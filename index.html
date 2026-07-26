@@ -1,0 +1,794 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#E8612C">
+<title>YEAH BUOY · Paddle Assist Motor for Kayaks</title>
+<meta name="description" content="A 3D-printed electric thruster for kayaks, inflatables, and jon boats. Open-source files. Field-repairable. Built by hand in Chicago.">
+<meta property="og:title" content="YEAH BUOY · Paddle Assist Motor">
+<meta property="og:description" content="3D-printed. Open-source. Field-repairable. Paddle-assist motor for kayaks, inflatables, and jon boats.">
+<meta property="og:image" content="assets/social/og-card.png">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="assets/social/og-card.png">
+<link rel="icon" type="image/svg+xml" href="assets/brand/favicon.svg">
+
+<!-- Fonts: slab-serif headline + monospace details, retro-marine manual feel -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400;700;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+  /* ───── Tokens ───── */
+  :root {
+    --orange: #E8612C;
+    --orange-dk: #B84416;
+    --cream:  #FAF1DC;
+    --cream-dk:#E6D6B0;
+    --ink:    #1A1A1A;
+    --sea:    #2A4A5C;
+    --red:    #C53030;
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'Roboto Slab', Georgia, serif;
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top + bottom hairline frame */
+  body::before, body::after {
+    content: '';
+    position: fixed; left: 0; right: 0;
+    height: 14px;
+    background: var(--ink);
+    z-index: 100;
+  }
+  body::before { top: 0; }
+  body::after { bottom: 0; }
+  body { padding: 14px 0; }
+
+  /* ───── Nav ───── */
+  nav.top {
+    background: var(--cream);
+    border-bottom: 1px solid var(--ink);
+    padding: 18px 28px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  nav.top .brand {
+    display: flex; align-items: center; gap: 14px;
+    text-decoration: none; color: var(--ink);
+  }
+  nav.top .brand .mark { width: 36px; height: 36px; }
+  nav.top .brand .name {
+    font-weight: 900; font-size: 18px;
+    letter-spacing: 0.06em;
+  }
+  nav.top .nav-links {
+    display: flex; gap: 24px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    font-weight: 700;
+  }
+  nav.top .nav-links a {
+    color: var(--ink); text-decoration: none;
+    text-transform: uppercase;
+    border-bottom: 2px solid transparent;
+    padding-bottom: 4px;
+  }
+  nav.top .nav-links a:hover { border-bottom-color: var(--orange); color: var(--orange); }
+
+  /* ───── Hero ───── */
+  .hero {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 60px 28px 80px;
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    gap: 56px;
+    align-items: center;
+  }
+  .hero .eyebrow {
+    display: inline-block;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    color: var(--sea);
+    padding: 6px 14px;
+    border: 1.5px solid var(--sea);
+    border-radius: 2px;
+    margin-bottom: 22px;
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  .hero h1 {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 900;
+    font-size: clamp(48px, 7vw, 84px);
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    margin: 0 0 12px;
+  }
+  .hero h1 .dot { color: var(--orange); }
+  .hero .tag {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 14px;
+    letter-spacing: 0.22em;
+    color: var(--sea);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin: 0 0 24px;
+  }
+  .hero .lede {
+    font-size: 20px;
+    line-height: 1.55;
+    max-width: 32em;
+    color: var(--ink);
+    margin: 0 0 32px;
+  }
+  .hero .ctas { display: flex; flex-wrap: wrap; gap: 12px; }
+  .hero .meta {
+    margin-top: 28px;
+    display: flex; gap: 28px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    color: var(--ink-soft, var(--sea));
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  .hero .meta strong { color: var(--ink); font-weight: 700; }
+
+  /* Buttons */
+  .btn {
+    display: inline-flex; align-items: center; gap: 8px;
+    padding: 14px 26px;
+    border-radius: 4px;
+    font: inherit;
+    font-weight: 700;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform 120ms, background 160ms;
+    border: 2px solid transparent;
+  }
+  .btn-primary {
+    background: var(--orange);
+    color: var(--cream);
+    border-color: var(--orange);
+  }
+  .btn-primary:hover { background: var(--orange-dk); border-color: var(--orange-dk); }
+  .btn-ghost {
+    background: transparent;
+    color: var(--ink);
+    border-color: var(--ink);
+  }
+  .btn-ghost:hover { background: var(--ink); color: var(--cream); }
+
+  /* Hero image */
+  .hero-img {
+    background: var(--ink);
+    border: 4px solid var(--ink);
+    box-shadow: 12px 12px 0 var(--orange);
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+  }
+  .hero-img img {
+    width: 100%; height: 100%; object-fit: cover;
+    display: block;
+    filter: contrast(1.05) saturate(1.05);
+  }
+  .hero-img .stamp {
+    position: absolute; bottom: 16px; right: 16px;
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 6px 12px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  @media (max-width: 860px) {
+    .hero { grid-template-columns: 1fr; padding: 40px 22px 60px; gap: 36px; }
+    nav.top { padding: 14px 22px; }
+    nav.top .nav-links { display: none; }
+  }
+
+  /* ───── Sections ───── */
+  section { padding: 80px 28px; }
+  section .inner { max-width: 1180px; margin: 0 auto; }
+
+  .sec-eyebrow {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.32em;
+    color: var(--orange);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+  .sec-h {
+    font-family: 'Roboto Slab', serif;
+    font-weight: 900;
+    font-size: clamp(32px, 4.4vw, 52px);
+    line-height: 1.05;
+    margin: 0 0 24px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ───── The Problem ───── */
+  .problem {
+    background: var(--ink);
+    color: var(--cream);
+    border-top: 4px solid var(--orange);
+    border-bottom: 4px solid var(--orange);
+  }
+  .problem .sec-eyebrow { color: var(--orange); }
+  .problem .grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .problem .copy p {
+    font-size: 20px;
+    line-height: 1.65;
+    margin: 0 0 18px;
+    max-width: 38em;
+  }
+  .problem .pull {
+    border-left: 4px solid var(--orange);
+    padding: 6px 0 6px 22px;
+    font-size: 22px;
+    line-height: 1.45;
+    font-style: italic;
+    color: var(--cream);
+  }
+  .problem .who {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.12);
+    padding: 24px;
+    border-radius: 4px;
+  }
+  .problem .who h3 {
+    margin: 0 0 16px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.22em;
+    color: var(--orange);
+    text-transform: uppercase;
+  }
+  .problem .who ul {
+    margin: 0; padding: 0; list-style: none;
+  }
+  .problem .who li {
+    padding: 8px 0;
+    border-bottom: 1px dashed rgba(255,255,255,0.12);
+    font-size: 16px;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .problem .who li:last-child { border-bottom: 0; }
+  .problem .who li::before {
+    content: '◇';
+    color: var(--orange);
+    font-size: 14px;
+  }
+  @media (max-width: 860px) {
+    .problem .grid { grid-template-columns: 1fr; gap: 32px; }
+  }
+
+  /* ───── Specs ───── */
+  .specs .grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 28px;
+  }
+  .spec {
+    background: var(--cream);
+    border: 2px solid var(--ink);
+    padding: 22px;
+    border-radius: 4px;
+    position: relative;
+  }
+  .spec .lbl {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.22em;
+    color: var(--sea);
+    text-transform: uppercase;
+    margin-bottom: 8px;
+    font-weight: 700;
+  }
+  .spec .val {
+    font-family: 'Roboto Slab', serif;
+    font-size: 30px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+  }
+  .spec .unit {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    margin-left: 4px;
+    letter-spacing: 0.1em;
+  }
+  .spec .note {
+    margin-top: 8px;
+    font-size: 13px;
+    color: var(--sea);
+    line-height: 1.45;
+  }
+  @media (max-width: 860px) {
+    .specs .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ───── How it works ───── */
+  .how .steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+    margin-top: 32px;
+  }
+  .step {
+    border: 2px solid var(--ink);
+    padding: 22px;
+    background: var(--cream);
+    position: relative;
+    border-radius: 4px;
+  }
+  .step .num {
+    position: absolute; top: -14px; left: 18px;
+    background: var(--orange);
+    color: var(--cream);
+    width: 28px; height: 28px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 900;
+    font-size: 14px;
+    border: 2px solid var(--ink);
+  }
+  .step h4 {
+    margin: 8px 0 6px;
+    font-family: 'Roboto Slab', serif;
+    font-weight: 700;
+    font-size: 18px;
+  }
+  .step p {
+    margin: 0;
+    font-size: 14px;
+    color: var(--sea);
+    line-height: 1.55;
+  }
+  @media (max-width: 860px) {
+    .how .steps { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  /* ───── Photo gallery ───── */
+  .gallery {
+    background: var(--cream-dk);
+    border-top: 4px solid var(--ink);
+    border-bottom: 4px solid var(--ink);
+  }
+  .gallery .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 12px;
+    margin-top: 32px;
+    height: 600px;
+  }
+  .gallery .ph {
+    overflow: hidden;
+    border: 3px solid var(--ink);
+    position: relative;
+    background: var(--ink);
+  }
+  .gallery .ph img {
+    width: 100%; height: 100%; object-fit: cover;
+    transition: transform 400ms;
+  }
+  .gallery .ph:hover img { transform: scale(1.04); }
+  .gallery .ph.tall { grid-row: span 2; }
+  .gallery .ph .cap {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    color: var(--cream);
+    padding: 30px 14px 14px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+  }
+  @media (max-width: 860px) {
+    .gallery .grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; height: auto; }
+    .gallery .ph.tall { grid-row: span 1; }
+    .gallery .ph { aspect-ratio: 1; }
+  }
+
+  /* ───── Two paths ───── */
+  .paths .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-top: 28px;
+  }
+  .path {
+    border: 3px solid var(--ink);
+    padding: 32px;
+    border-radius: 4px;
+    background: var(--cream);
+    position: relative;
+  }
+  .path.build { background: var(--cream); }
+  .path.buy { background: var(--ink); color: var(--cream); }
+  .path.buy .sec-eyebrow { color: var(--orange); }
+  .path .tag {
+    display: inline-block;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 2px;
+    margin-bottom: 16px;
+  }
+  .path.build .tag { background: var(--orange); color: var(--cream); }
+  .path.buy   .tag { background: var(--orange); color: var(--ink); }
+  .path h3 {
+    margin: 0 0 14px;
+    font-family: 'Roboto Slab', serif;
+    font-size: 28px;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+  .path ul {
+    margin: 0 0 22px; padding: 0;
+    list-style: none;
+  }
+  .path li {
+    padding: 6px 0;
+    font-size: 15px;
+    display: flex; align-items: baseline; gap: 10px;
+  }
+  .path li::before { content: '·'; color: var(--orange); font-weight: 900; }
+  @media (max-width: 860px) {
+    .paths .grid { grid-template-columns: 1fr; }
+  }
+
+  /* ───── Footer ───── */
+  footer.foot {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 60px 28px 30px;
+  }
+  footer .inner { max-width: 1180px; margin: 0 auto; }
+  footer .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 36px;
+    margin-bottom: 36px;
+  }
+  footer h5 {
+    margin: 0 0 14px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.24em;
+    color: var(--orange);
+    text-transform: uppercase;
+    font-weight: 700;
+  }
+  footer a {
+    color: var(--cream); text-decoration: none;
+    border-bottom: 1px dashed transparent;
+  }
+  footer a:hover { border-bottom-color: var(--orange); color: var(--orange); }
+  footer .legal {
+    border-top: 1px solid rgba(255,255,255,0.12);
+    padding-top: 22px;
+    display: flex; flex-wrap: wrap; gap: 24px;
+    font-family: 'Roboto Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    color: rgba(255,255,255,0.6);
+    text-transform: uppercase;
+  }
+  footer .legal a { color: rgba(255,255,255,0.7); }
+  @media (max-width: 860px) {
+    footer .grid { grid-template-columns: 1fr; }
+  }
+
+  /* Wave divider */
+  .wave-divider {
+    height: 40px;
+    background: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+  .wave-divider svg { width: 100%; height: 100%; display: block; }
+  .wave-divider path { fill: currentColor; }
+</style>
+</head>
+<body>
+
+<nav class="top">
+  <a class="brand" href="#top">
+    <svg class="mark" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <rect width="64" height="64" rx="10" fill="#E8612C"/>
+      <ellipse cx="32" cy="22" rx="14" ry="3.5" fill="#FAF1DC"/>
+      <rect x="18" y="22" width="28" height="18" fill="#1A1A1A"/>
+      <ellipse cx="32" cy="40" rx="14" ry="3.5" fill="#FAF1DC"/>
+      <line x1="32" y1="14" x2="32" y2="50" stroke="#E8612C" stroke-width="2"/>
+      <path d="M 26 14 Q 32 6 38 14" fill="none" stroke="#1A1A1A" stroke-width="2"/>
+      <path d="M 6 50 q 6 -3 12 0 t 12 0 t 12 0 t 12 0" fill="none" stroke="#1A1A1A" stroke-width="2"/>
+    </svg>
+    <span class="name">YEAH·BUOY</span>
+  </a>
+  <div class="nav-links">
+    <a href="#problem">Why</a>
+    <a href="#specs">Specs</a>
+    <a href="#how">How</a>
+    <a href="#paths">Build / Buy</a>
+  </div>
+</nav>
+
+<!-- ───── Hero ───── -->
+<header class="hero" id="top">
+  <div class="copy">
+    <span class="eyebrow">Paddle · Assist · Motor</span>
+    <h1>YEAH<span class="dot">·</span>BUOY</h1>
+    <p class="tag">Mfr. Chicago · 3D-printed · Open-source files</p>
+    <p class="lede">
+      A motor and battery pack that turns any kayak, inflatable, or jon boat into
+      a paddle-assist vessel. Plug in the ring terminal, throttle up on the wireless
+      remote, and cruise the lake at two miles an hour without breaking a sweat or
+      your shoulder.
+    </p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#paths">Get the files</a>
+      <a class="btn btn-ghost" href="#how">See how it works</a>
+    </div>
+    <div class="meta">
+      <span><strong>12.8V</strong> LiFePO4</span>
+      <span><strong>22Ah</strong> deep cycle</span>
+      <span><strong>~3hr</strong> runtime</span>
+    </div>
+  </div>
+  <div class="hero-img">
+    <img src="assets/photos/06-kayak-mounted-hero.jpg" alt="YEAH BUOY thruster mounted on the back of a kayak">
+    <span class="stamp">FIELD-TESTED · CHICAGO</span>
+  </div>
+</header>
+
+<!-- ───── The Problem ───── -->
+<section class="problem" id="problem">
+  <div class="inner grid">
+    <div class="copy">
+      <p class="sec-eyebrow">§ 01 · The Problem</p>
+      <h2 class="sec-h">Boats that get used<br>are boats that move.</h2>
+      <p>
+        Most weekends, the kayak sits on the roof. Not because people don't want to
+        paddle — because they can't, or shouldn't, or just don't have the energy
+        after a long week.
+      </p>
+      <div class="pull">
+        "Go to the lake paddle when you want to.<br>
+        Don't paddle when you don't want to."
+      </div>
+      <p>
+        That's it. The motor doesn't replace the paddle. It removes the friction
+        between you and getting on the water — so the kayak becomes a Tuesday
+        evening thing, not a Saturday-only thing.
+      </p>
+    </div>
+    <div class="who">
+      <h3>Who it's for</h3>
+      <ul>
+        <li>Fishermen who want to cover ground without burning out</li>
+        <li>Older paddlers who love the water but hate the strain</li>
+        <li>Rehab / shoulder recovery folks who still want to fish</li>
+        <li>Weekend recreationals with inflatable kayaks</li>
+        <li>DIY makers who want to print a thruster, not buy one</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ───── Specs ───── -->
+<section class="specs" id="specs">
+  <div class="inner">
+    <p class="sec-eyebrow">§ 02 · Specifications</p>
+    <h2 class="sec-h">Built to be repaired<br>in the field.</h2>
+    <p style="max-width: 38em; font-size: 18px; color: var(--sea);">
+      Every part is either 3D-printed by hand, off-the-shelf from a hobby shop, or
+      both. Nothing is soldered. Nothing is potted. If something breaks, you replace
+      it with a screwdriver and the spare in your dry bag.
+    </p>
+    <div class="grid">
+      <div class="spec">
+        <div class="lbl">Battery</div>
+        <div class="val">12.8<span class="unit">V</span></div>
+        <div class="note">LiFePO4 deep-cycle with 30A BMS. Off-the-shelf, field-swappable.</div>
+      </div>
+      <div class="spec">
+        <div class="lbl">Capacity</div>
+        <div class="val">22<span class="unit">Ah</span></div>
+        <div class="note">Multi-hour runtime at cruise speed. Add a parallel plug for more.</div>
+      </div>
+      <div class="spec">
+        <div class="lbl">Propeller</div>
+        <div class="val">6<span class="unit">-blade</span></div>
+        <div class="note">Ducted, conformal-coated, 3D-printed. High torque, low RPM.</div>
+      </div>
+      <div class="spec">
+        <div class="lbl">Mount</div>
+        <div class="val">tool<span class="unit">-free</span></div>
+        <div class="note">Velcro straps to any kayak, inflatable, or jon-boat transom.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── How It Works ───── -->
+<section class="how" id="how">
+  <div class="inner">
+    <p class="sec-eyebrow">§ 03 · How It Works</p>
+    <h2 class="sec-h">No switches.<br>No soldering.<br>Just plug and paddle.</h2>
+    <div class="steps">
+      <div class="step">
+        <div class="num">1</div>
+        <h4>Strap on</h4>
+        <p>Velcro-mount the ducted thruster unit to your kayak's transom. No tools. No drilling. Slide off when you're done.</p>
+      </div>
+      <div class="step">
+        <div class="num">2</div>
+        <h4>Plug in</h4>
+        <p>Ring terminal onto the battery. XT60 into the motor. The low-voltage connectors are waterproof — drop them in the lake if you want.</p>
+      </div>
+      <div class="step">
+        <div class="num">3</div>
+        <h4>Pair remote</h4>
+        <p>Wireless throttle remote pairs to the case in seconds. Hold it like a TV remote. Throttle up.</p>
+      </div>
+      <div class="step">
+        <div class="num">4</div>
+        <h4>Go</h4>
+        <p>Cruise at 2 mph, multi-hour runtime. Kill switch on the case if you need to bail. Unplug, dry off, done.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── Photo Gallery ───── -->
+<section class="gallery">
+  <div class="inner">
+    <p class="sec-eyebrow" style="color: var(--ink);">§ 04 · The Hardware</p>
+    <h2 class="sec-h" style="max-width: 22ch;">Open the case.<br>Every wire has a name.</h2>
+    <div class="grid">
+      <div class="ph tall">
+        <img src="assets/photos/02-case-open-battery.jpg" alt="Open case showing LiFePO4 battery">
+        <div class="cap">The brain · 12.8V LiFePO4</div>
+      </div>
+      <div class="ph">
+        <img src="assets/photos/03-prop-closeup.jpg" alt="6-blade ducted prop close-up">
+        <div class="cap">6-blade ducted prop</div>
+      </div>
+      <div class="ph">
+        <img src="assets/photos/05-junction-box-esc.jpg" alt="3D-printed ESC junction box">
+        <div class="cap">ESC housing · 3D-printed</div>
+      </div>
+      <div class="ph">
+        <img src="assets/photos/07-case-with-remote.jpg" alt="YEAH BUOY case with wireless remote">
+        <div class="cap">Wireless throttle remote</div>
+      </div>
+      <div class="ph">
+        <img src="assets/photos/04-ducted-thruster-velcro.jpg" alt="Thruster mounted with velcro straps">
+        <div class="cap">Tool-free velcro mount</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── Two paths ───── -->
+<section class="paths" id="paths">
+  <div class="inner">
+    <p class="sec-eyebrow">§ 05 · Two Paths</p>
+    <h2 class="sec-h">Print it yourself.<br>Or buy it built.</h2>
+    <p style="max-width: 42em; font-size: 18px; color: var(--sea);">
+      The whole point is keeping the price honest. If you're a maker, you already have
+      most of what you need — a 4S drone motor and a 12V LiFePO4 cell. If you just
+      want one, Ryan builds them.
+    </p>
+    <div class="grid">
+      <div class="path build">
+        <span class="tag">Build it</span>
+        <h3>Print it yourself</h3>
+        <ul>
+          <li>STLs release on Maker World · free</li>
+          <li>Uses any 4S drone motor you have lying around</li>
+          <li>Drone-battery hobbyists have the parts already</li>
+          <li>Conformal coat the prop yourself</li>
+          <li>Tweak the design, share your remix back</li>
+          <li>Ryan's name is in the print — attribution baked in</li>
+        </ul>
+        <a class="btn btn-primary" href="#" onclick="return false;">Get the STLs</a>
+        <p style="margin-top: 14px; font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--sea); letter-spacing: 0.16em; text-transform: uppercase;">
+          Files drop · soon
+        </p>
+      </div>
+      <div class="path buy">
+        <span class="tag">Buy it</span>
+        <h3>Or buy it built</h3>
+        <ul>
+          <li>Ryan builds each one by hand in Chicago</li>
+          <li>Tested before it ships</li>
+          <li>Battery, motor, ESC, prop, mount — all included</li>
+          <li>Pair your remote and go</li>
+          <li>Same open-source files · same field-repair story</li>
+        </ul>
+        <a class="btn btn-primary" href="#" onclick="return false;">Request a unit</a>
+        <p style="margin-top: 14px; font-family: 'Roboto Mono', monospace; font-size: 11px; color: var(--cream); opacity: 0.7; letter-spacing: 0.16em; text-transform: uppercase;">
+          Built to order · small batches
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ───── Footer ───── -->
+<footer class="foot">
+  <div class="inner">
+    <div class="grid">
+      <div>
+        <h5>YEAH·BUOY</h5>
+        <p style="font-size: 15px; line-height: 1.6; margin: 0; max-width: 36em;">
+          Designed and built by Ryan O in Chicago. Open-source files released for makers.
+          Finished units built to order. Field-repairable by design.
+        </p>
+      </div>
+      <div>
+        <h5>The Project</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 1.9;">
+          <li><a href="#specs">Specs</a></li>
+          <li><a href="#how">How it works</a></li>
+          <li><a href="#paths">Build or buy</a></li>
+          <li><a href="#" onclick="return false;">Maker World (soon)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Send It Studio</h5>
+        <ul style="list-style: none; padding: 0; margin: 0; font-size: 14px; line-height: 1.9;">
+          <li><a href="https://billthorpe522.github.io/sendit-studio/" target="_blank" rel="noopener">Send It Studio ↗</a></li>
+          <li><a href="https://cerealnaut.com" target="_blank" rel="noopener">cerealnaut ↗</a></li>
+          <li><a href="https://github.com/Billthorpe522/yeah-buoy" target="_blank" rel="noopener">Source on GitHub ↗</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="legal">
+      <span>© 2026 YEAH·BUOY</span>
+      <span>·</span>
+      <span>CHICAGO, IL</span>
+      <span>·</span>
+      <span>BUILT BY HAND</span>
+      <span>·</span>
+      <span>OPEN-SOURCE STLS</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

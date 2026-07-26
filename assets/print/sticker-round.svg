@@ -1,0 +1,61 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 600" role="img" aria-label="YEAH BUOY sticker">
+  <defs>
+    <style>
+      .stk-headline { font-family: 'Roboto Slab', Georgia, serif; font-weight: 900; font-size: 80px; fill: #1A1A1A; letter-spacing: 0.04em; }
+      .stk-spec     { font-family: 'Roboto Mono', 'Courier New', monospace; font-size: 16px; fill: #1A1A1A; letter-spacing: 0.18em; font-weight: 700; }
+      .stk-tiny     { font-family: 'Roboto Mono', 'Courier New', monospace; font-size: 11px; fill: #1A1A1A; letter-spacing: 0.3em; font-weight: 700; }
+      .stk-accent   { fill: #E8612C; }
+    </style>
+  </defs>
+
+  <!-- outer ring (printable boundary) -->
+  <circle cx="300" cy="300" r="290" fill="#FAF1DC" stroke="#1A1A1A" stroke-width="4"/>
+  <circle cx="300" cy="300" r="278" fill="none" stroke="#E8612C" stroke-width="2"/>
+
+  <!-- top arc text -->
+  <defs>
+    <path id="topArc" d="M 80 300 A 220 220 0 0 1 520 300"/>
+    <path id="botArc" d="M 100 320 A 200 200 0 0 0 500 320"/>
+  </defs>
+  <text class="stk-tiny" fill="#2A4A5C">
+    <textPath href="#topArc" startOffset="50%" text-anchor="middle">
+      PADDLE ASSIST · CHICAGO · 2026
+    </textPath>
+  </text>
+  <text class="stk-tiny" fill="#2A4A5C">
+    <textPath href="#botArc" startOffset="50%" text-anchor="middle">
+      FIELD · REPAIRABLE · OPEN · SOURCE
+    </textPath>
+  </text>
+
+  <!-- buoy emblem in the middle -->
+  <g transform="translate(300 300)">
+    <!-- bail -->
+    <path d="M -16 -90 Q 0 -110 16 -90" fill="none" stroke="#1A1A1A" stroke-width="4"/>
+    <line x1="0" y1="-90" x2="0" y2="-60" stroke="#1A1A1A" stroke-width="2"/>
+    <!-- top white band -->
+    <ellipse cx="0" cy="-58" rx="40" ry="9" fill="#FAF1DC" stroke="#1A1A1A" stroke-width="3"/>
+    <!-- body -->
+    <rect x="-40" y="-58" width="80" height="46" fill="#1A1A1A"/>
+    <!-- middle stripe (orange) -->
+    <rect x="-40" y="-30" width="80" height="6" fill="#E8612C"/>
+    <!-- bottom white band -->
+    <ellipse cx="0" cy="-12" rx="40" ry="9" fill="#FAF1DC" stroke="#1A1A1A" stroke-width="3"/>
+    <!-- waves -->
+    <path d="M -50 14 q 12 -6 24 0 t 24 0 t 24 0" fill="none" stroke="#1A1A1A" stroke-width="3"/>
+    <path d="M -55 26 q 14 -6 28 0 t 28 0 t 28 0" fill="none" stroke="#1A1A1A" stroke-width="2" opacity="0.6"/>
+  </g>
+
+  <!-- wordmark -->
+  <text class="stk-headline" x="300" y="420" text-anchor="middle">YEAH · BUOY</text>
+
+  <!-- specs row -->
+  <line x1="120" y1="450" x2="480" y2="450" stroke="#1A1A1A" stroke-width="1.5"/>
+  <text class="stk-spec" x="300" y="475" text-anchor="middle">
+    <tspan fill="#E8612C">12.8V</tspan>  ·  <tspan fill="#E8612C">22AH</tspan>  ·  <tspan fill="#E8612C">3D-PRINTED</tspan>
+  </text>
+
+  <!-- bottom corner ticks -->
+  <line x1="50" y1="560" x2="120" y2="560" stroke="#1A1A1A" stroke-width="2"/>
+  <line x1="480" y1="560" x2="550" y2="560" stroke="#1A1A1A" stroke-width="2"/>
+</svg>

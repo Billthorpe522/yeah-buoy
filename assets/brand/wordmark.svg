@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 200" role="img" aria-label="YEAH BUOY">
+  <defs>
+    <style>
+      .wm-headline {
+        font-family: 'Roboto Slab', 'Courier New', Georgia, serif;
+        font-weight: 900;
+        font-size: 96px;
+        letter-spacing: 0.04em;
+        fill: #1A1A1A;
+      }
+      .wm-accent {
+        fill: #E8612C;
+      }
+      .wm-tiny {
+        font-family: 'Roboto Mono', 'Courier New', monospace;
+        font-size: 14px;
+        letter-spacing: 0.4em;
+        fill: #2A4A5C;
+        font-weight: 700;
+      }
+      .wm-line {
+        stroke: #1A1A1A;
+        stroke-width: 3;
+      }
+      .wm-line-thin {
+        stroke: #2A4A5C;
+        stroke-width: 1;
+      }
+    </style>
+  </defs>
+
+  <!-- top hairline rule with knotwork ticks -->
+  <line class="wm-line" x1="0" y1="20" x2="600" y2="20"/>
+  <line class="wm-line-thin" x1="0" y1="26" x2="600" y2="26"/>
+
+  <!-- eyebrow -->
+  <text class="wm-tiny" x="300" y="50" text-anchor="middle">EST. 2026 · MFR. CHICAGO · MADE BY HAND</text>
+
+  <!-- main wordmark -->
+  <text class="wm-headline" x="300" y="130" text-anchor="middle">YEAH<tspan class="wm-accent">·</tspan>BUOY</text>
+
+  <!-- decorative swell line under the type -->
+  <path class="wm-line" fill="none" d="M 80 158 q 30 -8 60 0 t 60 0 t 60 0 t 60 0 t 60 0 t 60 0 t 60 0"/>
+
+  <!-- tagline -->
+  <text class="wm-tiny" x="300" y="184" text-anchor="middle" fill="#E8612C">PADDLE · ASSIST · MOTOR</text>
+
+  <!-- bottom rule -->
+  <line class="wm-line" x1="0" y1="195" x2="600" y2="195"/>
+</svg>
